@@ -9,6 +9,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [nationality, setNationality] = useState("");
   const [gender, setGender] = useState("");
+  const [error, setError] = useState(null);
   
   const apiClient = new ApiClient();
 
@@ -27,6 +28,7 @@ export default function Home() {
       setUsers(response.data.results);
     } catch (error) {
       console.error('Failed to fetch users:', error);
+      setError("Failed to fetch users");
     } finally {
       setLoading(false);
     }
@@ -42,6 +44,14 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      {
+        error && (
+          <div className="text-center text-red-500 mb-4">
+            {error}
+          </div>
+        )
+      }
+      
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
