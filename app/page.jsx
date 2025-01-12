@@ -17,14 +17,10 @@ export default function Home() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      let response;
-      if (nationality) {
-        response = await apiClient.getUsersByNationality(nationality);
-      } else if (gender) {
-        response = await apiClient.getUsersByGender(gender);
-      } else {
-        response = await apiClient.getUsers();
-      }
+      const response = await apiClient.getUsersByFilters({ 
+        nationality, 
+        gender 
+      });
       setUsers(response.data.results);
     } catch (error) {
       console.error('Failed to fetch users:', error);

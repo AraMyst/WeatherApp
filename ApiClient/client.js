@@ -37,6 +37,14 @@ export class ApiClient {
   async getUsersByGender(gender) {
     return this.getRequest("", { gender, results: 10 });
   }
+
+  // Get users by filters
+  async getUsersByFilters({ nationality, gender }) {
+    const params = { results: 10 };
+    if (nationality) params.nat = nationality;
+    if (gender) params.gender = gender;
+    return this.getRequest("", params);
+  }
 }
 
 export default ApiClient;
