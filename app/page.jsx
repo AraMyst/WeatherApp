@@ -8,7 +8,6 @@ export default function Home() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [nationality, setNationality] = useState("");
-  const [gender, setGender] = useState("");
   const [error, setError] = useState(null);
   
   const apiClient = new ApiClient();
@@ -16,15 +15,13 @@ export default function Home() {
   // Function to fetch users with current filters
   const fetchUsers = async () => {
     setLoading(true);
+    setError(null); // Clear any previous errors
     try {
-      const response = await apiClient.getUsersByFilters({ 
-        nationality, 
-        gender 
-      });
+      const response = await apiClient.getUsersByFilters({ nationality });
       setUsers(response.data.results);
     } catch (error) {
       console.error('Failed to fetch users:', error);
-      setError("Failed to fetch users");
+      setError(error.message || "An unexpected error occurred while fetching users");
     } finally {
       setLoading(false);
     }
@@ -33,7 +30,7 @@ export default function Home() {
   // Effect hook to fetch data when filters change
   useEffect(() => {
     fetchUsers();
-  }, [nationality, gender]);
+  }, [nationality]);
 
   // Available nationalities
   const nationalities = ['US', 'GB', 'FR', 'DE', 'AU', 'BR', 'CA'];
@@ -42,8 +39,9 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       {
         error && (
-          <div className="text-center text-red-500 mb-4">
-            {error}
+          <div className="text-center bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+            <p className="text-red-600 font-medium">Error</p>
+            <p className="text-red-500 text-sm mt-1">{error}</p>
           </div>
         )
       }
@@ -55,12 +53,12 @@ export default function Home() {
             Random User Directory
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Browse through our collection of randomly generated users. Filter by nationality or gender to find specific profiles.
+            Browse through our collection of randomly generated users. Filter by nationality to find specific profiles.
           </p>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+        <div className="flex justify-center mb-12">
           <select 
             className="px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200 
             focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 
@@ -72,18 +70,6 @@ export default function Home() {
             {nationalities.map(nat => (
               <option key={nat} value={nat}>{nat}</option>
             ))}
-          </select>
-
-          <select 
-            className="px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200 
-            focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700 
-            hover:border-gray-300 transition-colors duration-200"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-          >
-            <option value="">All Genders</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
           </select>
         </div>
 
