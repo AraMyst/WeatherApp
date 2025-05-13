@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ApiClient from "../ApiClient/client";
+import { WeatherCard } from "@/components/WeatherCard";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -30,10 +31,10 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4">
-      <div className="max-w-3xl mx-auto text-center">
-        <h1 className="text-4xl font-bold mb-6">Weather Forecast</h1>
-        <p className="text-gray-600 mb-8">
+    <main className="min-h-screen bg-blue-950 py-12 px-4">
+      <div className="mx-auto text-center">
+        <h1 className="text-white text-4xl font-bold mb-6">Weather Forecast</h1>
+        <p className="text-white mb-8">
           Enter a city name to get a 7-day weather forecast.
         </p>
 
@@ -47,7 +48,7 @@ export default function Home() {
           />
           <button
             onClick={handleFetchWeather}
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+            className="bg-white text-black px-6 py-2 rounded hover:bg-blue-100 transition"
           >
             Get Forecast
           </button>
@@ -76,7 +77,7 @@ export default function Home() {
                   <p>Max Temp: {forecast.daily.temperature_2m_max[i]}°C</p>
                   <p>Min Temp: {forecast.daily.temperature_2m_min[i]}°C</p>
                   <p>Wind: {forecast.daily.windspeed_10m_max[i]} km/h</p>
-                  
+                  <p>Weather Code: {forecast.daily.weathercode[i]}</p>
                 </div>
               ))}
             </div>
