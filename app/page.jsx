@@ -50,10 +50,10 @@ export default function Home() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Random User Directory
+            Weather Forecast
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Browse through our collection of randomly generated users. Filter by nationality to find specific profiles.
+            Check the weather for cities around the world.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ export default function Home() {
             value={nationality}
             onChange={(e) => setNationality(e.target.value)}
           >
-            <option value="">All Nationalities</option>
+            <option value="">All Cities</option>
             {nationalities.map(nat => (
               <option key={nat} value={nat}>{nat}</option>
             ))}
