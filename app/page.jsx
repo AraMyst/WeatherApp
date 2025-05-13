@@ -76,7 +76,7 @@ export default function Home() {
                   <p>Max Temp: {forecast.daily.temperature_2m_max[i]}°C</p>
                   <p>Min Temp: {forecast.daily.temperature_2m_min[i]}°C</p>
                   <p>Wind: {forecast.daily.windspeed_10m_max[i]} km/h</p>
-                  <p>Weather Code: {forecast.daily.weathercode[i]}</p>
+                  
                 </div>
               ))}
             </div>
