@@ -1,43 +1,63 @@
 import axios from "axios";
 
-// Base URL for the Random User API
-const BASE_URL = "https://randomuser.me/api";
-
 export class ApiClient {
-  // Helper method to check if the API response is successful
-  async responseStatusCheck(responseObject) {
-    if (responseObject.status >= 200 && responseObject.status < 300) {
-      return responseObject;
-    }
-    throw new Error(responseObject.statusText);
-  }
+  async fetchCoordinates(city) {
+    const url = "https://geocoding-api.open-meteo.com/v1/search";
+    const params = {
+      name: city,
+      count: 1
+    };
 
-  // Generic GET request method
-  async getRequest(endpoint, params = {}) {
     try {
-      const response = await axios.get(`${BASE_URL}${endpoint}`, { params });
-      return this.responseStatusCheck(response);
-    } catch (error) {
-      //  error handling
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        throw new Error(`API Error: ${error.response.status} - ${error.response.data.error || error.response.statusText}`);
-      } else if (error.request) {
-        // The request was made but no response was received
-        throw new Error('No response received from the server. Please check your internet connection.');
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        throw new Error(`Request Error: ${error.message}`);
+      const response = await axios.get(url, { params });
+      const data = response.data;
+
+      if (!data.results || data.results.length === 0) {
+        throw new Error("Location not found");
       }
+
+      const { latitude, longitude, name } = data.results[0];
+      return { latitude, longitude, name };
+    } catch (error) {
+      throw new Error(`Failed to fetch coordinates: ${error.message}`);
     }
   }
 
-  // Get users with optional filters
-  async getUsersByFilters({ nationality } = {}) {
-    const params = { results: 10 };
-    if (nationality) params.nat = nationality;
-    return this.getRequest("", params);
+  async fetch7DayForecast(lat, lon) {
+    const url = "https://api.open-meteo.com/v1/forecast";
+    const params = {
+      latitude: lat,
+      longitude: lon,
+      daily: "temperature_2m_max,temperature_2m_min,weathercode,windspeed_10m_max",
+      forecast_days: 7,
+      timezone: "auto"
+    };
+
+    try {
+      const response = await axios.get(url, { params });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch 7-day forecast: ${error.message}`);
+    }
+  }
+
+  async fetchHourlyForecast(lat, lon, date) {
+    const url = "https://api.open-meteo.com/v1/forecast";
+    const params = {
+      latitude: lat,
+      longitude: lon,
+      hourly: "temperature_2m,relative_humidity_2m,wind_speed_10m",
+      start_date: date,
+      end_date: date,
+      timezone: "auto"
+    };
+
+    try {
+      const response = await axios.get(url, { params });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch hourly forecast: ${error.message}`);
+    }
   }
 }
 
