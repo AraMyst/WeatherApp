@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ApiClient from "../ApiClient/client";
+import { WeatherCard } from "@/components/WeatherCard";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -30,10 +31,10 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4">
-      <div className="max-w-3xl mx-auto text-center">
-        <h1 className="text-4xl font-bold mb-6">Weather Forecast</h1>
-        <p className="text-gray-600 mb-8">
+    <main className="min-h-screen bg-blue-950 py-12 px-4">
+      <div className="mx-auto text-center">
+        <h1 className="text-white text-4xl font-bold mb-6">Weather Forecast</h1>
+        <p className="text-white mb-8">
           Enter a city name to get a 7-day weather forecast.
         </p>
 
@@ -47,7 +48,7 @@ export default function Home() {
           />
           <button
             onClick={handleFetchWeather}
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+            className="bg-white text-black px-6 py-2 rounded hover:bg-blue-100 transition"
           >
             Get Forecast
           </button>
@@ -62,25 +63,23 @@ export default function Home() {
         )}
 
         {forecast && (
-          <div className="mt-8 text-left">
-            <h2 className="text-2xl font-semibold mb-4">
-              Weather Forecast for {forecast.location}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {forecast.daily.time.map((date, i) => (
-                <div
-                  key={date}
-                  className="bg-white rounded shadow p-4 space-y-2"
-                >
-                  <p className="text-gray-800 font-bold">{date}</p>
-                  <p>Max Temp: {forecast.daily.temperature_2m_max[i]}°C</p>
-                  <p>Min Temp: {forecast.daily.temperature_2m_min[i]}°C</p>
-                  <p>Wind: {forecast.daily.windspeed_10m_max[i]} km/h</p>
-                  <p>Weather Code: {forecast.daily.weathercode[i]}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+  <div className="mt-8 text-left">
+    <h2 className="text-white text-2xl font-semibold mb-4">
+      7-Day Forecast for {forecast.location}
+    </h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-6">
+      {forecast.daily.time.map((date, i) => (
+        <WeatherCard
+          key={date}
+          date={date}
+          maxTemp={forecast.daily.temperature_2m_max[i]}
+          minTemp={forecast.daily.temperature_2m_min[i]}
+          windSpeed={forecast.daily.windspeed_10m_max[i]}
+          weatherCode={forecast.daily.weathercode[i]}
+        />
+      ))}
+    </div>
+  </div>
         )}
       </div>
     </main>
