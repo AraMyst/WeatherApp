@@ -1,8 +1,8 @@
 import axios from "axios";
-
+const url = "https://geocoding-api.open-meteo.com/v1/search";
 export class ApiClient {
   async fetchCoordinates(city) {
-    const url = "https://geocoding-api.open-meteo.com/v1/search";
+    
     const params = {
       name: city,
       count: 1
@@ -41,7 +41,7 @@ export class ApiClient {
     }
   }
 
-  async fetchHourlyForecast(lat, lon, date) {
+ /* async fetchHourlyForecast(lat, lon, date) {
     const url = "https://api.open-meteo.com/v1/forecast";
     const params = {
       latitude: lat,
@@ -58,7 +58,7 @@ export class ApiClient {
     } catch (error) {
       throw new Error(`Failed to fetch hourly forecast: ${error.message}`);
     }
-  }
+  }*/
 }
 
 export default ApiClient;

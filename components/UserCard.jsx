@@ -1,4 +1,4 @@
-export const UserCard = ({ user, onClick }) => (
+/*export const UserCard = ({ user, onClick }) => (
   <div
     className="w-full bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 
     transform hover:scale-105 overflow-hidden p-6 border border-gray-100 flex items-center 
@@ -18,4 +18,4 @@ export const UserCard = ({ user, onClick }) => (
       <p className="text-xs text-gray-400 mt-1">{user.location.city}</p>
     </div>
   </div>
-); 
+); */
