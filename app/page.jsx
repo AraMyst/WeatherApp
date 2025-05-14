@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import ApiClient from "../ApiClient/client";
 import { WeatherCard } from "@/components/WeatherCard";
+import { mapCodeToDesc } from "@/utils/weatherCodes";
 
 export default function Home() {
   const [city, setCity] = useState("");
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedForecast, setSelectedForecast] = useState(null);
 
   const weatherClient = new ApiClient();
 
@@ -29,6 +31,7 @@ export default function Home() {
       setLoading(false);
     }
   };
+
 
   return (
     <main className="min-h-screen bg-blue-950 py-12 px-4">
@@ -62,27 +65,54 @@ export default function Home() {
           </div>
         )}
 
+{selectedForecast && (
+          <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl mx-auto mt-8">
+            <h2 className="text-2xl font-bold mb-4">
+              Details for{" "}
+              {new Intl.DateTimeFormat("en-GB", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+              }).format(new Date(selectedForecast.date))}
+            </h2>
+            <p><strong>Max Temp:</strong> {selectedForecast.maxTemp}°C</p>
+            <p><strong>Min Temp:</strong> {selectedForecast.minTemp}°C</p>
+            <p><strong>Wind Speed:</strong> {selectedForecast.windSpeed} km/h</p>
+            <button
+              className="mt-4 px-4 py-2 bg-blue-500 text-black rounded hover:bg-blue-600"
+              onClick={() => setSelectedForecast(null)}
+            >
+              Close
+            </button>
+          </div>
+        )}
+
         {forecast && (
           <div className="mt-8 text-left">
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl font-semibold mb-4 text-white">
               Weather Forecast for {forecast.location}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
               {forecast.daily.time.map((date, i) => (
-                <div
+                <WeatherCard
                   key={date}
-                  className="bg-white rounded shadow p-4 space-y-2"
-                >
-                  <p className="text-gray-800 font-bold">{date}</p>
-                  <p>Max Temp: {forecast.daily.temperature_2m_max[i]}°C</p>
-                  <p>Min Temp: {forecast.daily.temperature_2m_min[i]}°C</p>
-                  <p>Wind: {forecast.daily.windspeed_10m_max[i]} km/h</p>
-                  <p>Weather Code: {forecast.daily.weathercode[i]}</p>
-                </div>
+                  date={date}
+                  weatherCode={forecast.daily.weathercode[i]}
+                  onClick={() =>
+                    setSelectedForecast({
+                      date,
+                      maxTemp: forecast.daily.temperature_2m_max[i],
+                      minTemp: forecast.daily.temperature_2m_min[i],
+                      windSpeed: forecast.daily.windspeed_10m_max[i],
+                    })
+                  }
+                />
               ))}
             </div>
           </div>
         )}
+
+        
       </div>
     </main>
   );
