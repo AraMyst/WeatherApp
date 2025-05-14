@@ -34,7 +34,7 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-blue-950 py-12 px-4">
+    <main className="min-h-screen  bg-blue-950 py-12 px-4">
       <div className="mx-auto text-center">
         <h1 className="text-white text-4xl font-bold mb-6">Weather Forecast</h1>
         <p className="text-white mb-8">
