@@ -44,7 +44,7 @@ export default function Home() {
       <input
         type="text"
         placeholder="Enter a city name to get a 7-day weather forecast"
-        className="bg-gray-100 px-4 py-2 border rounded w-full sm:w-80"
+        className="bg-gray-100 px-4 py-2 border rounded w-[600px] sm:w-[450px]"
         value={city}
         onChange={(e) => setCity(e.target.value)}
       />

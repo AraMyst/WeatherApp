@@ -1,10 +1,11 @@
 import { mapCodeToDesc, mapCodeToCategory } from "@/utils/weatherCodes";
 
 const bgImageMap = {
-  sunny: "/images/sunny.jpeg",
-  cloudy: "/images/cloudy.jpeg",
-  rain: "/images/rain.jpeg",
-  storm: "/images/storm.jpeg",
+  sunny: "/images/sunny.avif",
+  cloudy: "/images/cloudy.avif",
+  rain: "/images/rain.avif",
+  storm: "/images/storm.avif",
+  snow: "/images/snow.avif",
 };
 
 export const WeatherCard = ({ date, weatherCode, onClick }) => {
