@@ -34,28 +34,32 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-blue-950 py-12 px-4">
-      <div className="mx-auto text-center">
-        <h1 className="text-white text-4xl font-bold mb-6">Weather Forecast</h1>
-        <p className="text-white mb-8">
-          Enter a city name to get a 7-day weather forecast.
-        </p>
+    <main className="min-h-screen bg-blue-950">
+      
+     <header className="bg-white shadow-lg p-8 mb-8 text-black">
+  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div className="text-4xl font-bold">WeatherApp</div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          <input
-            type="text"
-            placeholder="Enter city..."
-            className="px-4 py-2 border rounded w-full sm:w-1/2"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-          <button
-            onClick={handleFetchWeather}
-            className="bg-white text-black px-6 py-2 rounded hover:bg-blue-100 transition"
-          >
-            Get Forecast
-          </button>
-        </div>
+    <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+      <input
+        type="text"
+        placeholder="Enter a city name to get a 7-day weather forecast"
+        className="bg-gray-100 px-4 py-2 border rounded w-[600px] sm:w-[450px]"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+      />
+      <button
+        onClick={handleFetchWeather}
+        className="text-sm bg-blue-950 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-full"
+      >
+        Go!
+      </button>
+    </div>
+  </div>
+</header>
+
+    
+
 
         {loading && <p className="text-blue-500">Loading...</p>}
 
@@ -79,20 +83,19 @@ export default function Home() {
             <p><strong>Min Temp:</strong> {selectedForecast.minTemp}°C</p>
             <p><strong>Wind Speed:</strong> {selectedForecast.windSpeed} km/h</p>
             <button
-              className="mt-4 px-4 py-2 bg-blue-500 text-black rounded hover:bg-blue-600"
+              className="text-sm bg-blue-950 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-full mt-4"
               onClick={() => setSelectedForecast(null)}
-            >
-              Close
+            >Close
             </button>
           </div>
         )}
 
         {forecast && (
           <div className="mt-8 text-left">
-            <h2 className="text-2xl font-semibold mb-4 text-white">
-              Weather Forecast for {forecast.location}
+            <h2 className="text-2xl font-semibold mb-4 text-white pl-8 pb-4">
+              7 Day Weather Forecast for {forecast.location}
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-4 pl-8 pr-8">
               {forecast.daily.time.map((date, i) => (
                 <WeatherCard
                   key={date}
@@ -111,9 +114,6 @@ export default function Home() {
             </div>
           </div>
         )}
-
-        
-      </div>
     </main>
   );
 }
